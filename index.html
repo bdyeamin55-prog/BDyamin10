@@ -4,49 +4,114 @@
   <meta charset="UTF-8">
   <title>BDKazi Dashboard</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
-</head>
 
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      text-align: center;
+    }
+
+    header {
+      background: #0b1220;
+      color: white;
+      padding: 20px;
+    }
+
+    nav a {
+      color: white;
+      margin: 0 10px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .hero {
+      background: #2563eb;
+      color: white;
+      padding: 40px 20px;
+    }
+
+    .status {
+      margin-top: 15px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .ok {
+      color: #00ff88;
+    }
+
+    .err {
+      color: #ff4d4d;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 15px;
+    }
+
+    footer {
+      background: #0b1220;
+      color: white;
+      padding: 15px;
+      margin-top: 40px;
+    }
+  </style>
+</head>
 <body>
 
-  <!-- Navbar -->
-  <header class="navbar">
-    <h1 class="logo">BDKazi</h1>
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="accounts.html">Accounts</a>
-      <a href="friends.html">Friends</a>
-      <a href="web.html">Web</a>
-    </nav>
-  </header>
+<header>
+  <h1>BDKazi</h1>
+  <nav>
+    <a href="#">Home</a>
+    <a href="#">Accounts</a>
+    <a href="#">Friends</a>
+    <a href="#">Web</a>
+  </nav>
+</header>
 
-  <!-- Hero Section -->
-  <section class="hero">
-    <h2>Welcome to BDKazi Dashboard</h2>
-    <p>Website is running successfully 🚀</p>
+<section class="hero">
+  <h2>Welcome to BDKazi Dashboard 🚀</h2>
+  <p>Website is running successfully</p>
 
-    <button onclick="checkAPI()">Check API</button>
-    <p id="apiResult" style="margin-top:10px;"></p>
-  </section>
+  <button onclick="checkAPI()">Check API</button>
+  <div id="api-status" class="status">⏳ Waiting...</div>
+</section>
 
-  <!-- Footer -->
-  <footer class="footer">
-    <p>© 2026 BDKazi. All rights reserved.</p>
-  </footer>
+<footer>
+  © 2026 BDKazi. All rights reserved.
+</footer>
 
-  <!-- API Script -->
-  <script>
-    function checkAPI() {
-      fetch("https://bdkaziapi-9.vercel.app")
-        .then(response => response.text())
-        .then(data => {
-          document.getElementById("apiResult").innerText = data;
-        })
-        .catch(error => {
-          document.getElementById("apiResult").innerText = "❌ API Error";
-        });
+<script>
+const BASE_API = "https://bdkaziapi-9.vercel.app";
+const PATHS = ["", "/api", "/status", "/health"];
+
+async function checkAPI() {
+  const statusEl = document.getElementById("api-status");
+  statusEl.textContent = "⏳ Checking API...";
+  statusEl.className = "status";
+
+  for (let path of PATHS) {
+    try {
+      const res = await fetch(BASE_API + path);
+      if (!res.ok) continue;
+
+      await res.json();
+      statusEl.textContent = "✅ API Connected Successfully";
+      statusEl.classList.add("ok");
+      return;
+    } catch (e) {
+      // try next
     }
-  </script>
+  }
+
+  statusEl.textContent = "❌ API Error";
+  statusEl.classList.add("err");
+}
+</script>
 
 </body>
 </html>
