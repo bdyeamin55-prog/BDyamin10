@@ -2,10 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>BDKazi | Dashboard</title>
+  <title>BDKazi Dashboard</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
   <!-- Navbar -->
@@ -24,30 +25,8 @@
     <h2>Welcome to BDKazi Dashboard</h2>
     <p>Website is running successfully 🚀</p>
 
-    <!-- API Test -->
-    <button onclick="loadAPI()">Check API</button>
-    <p id="result"></p>
-  </section>
-
-  <!-- Cards -->
-  <section class="cards">
-    <div class="card">
-      <h3>Accounts</h3>
-      <p>Manage all accounts</p>
-      <a href="accounts.html">Open</a>
-    </div>
-
-    <div class="card">
-      <h3>Friends</h3>
-      <p>View friends data</p>
-      <a href="friends.html">Open</a>
-    </div>
-
-    <div class="card">
-      <h3>Web</h3>
-      <p>Website controls</p>
-      <a href="web.html">Open</a>
-    </div>
+    <button onclick="checkAPI()">Check API</button>
+    <p id="apiResult" style="margin-top:10px;"></p>
   </section>
 
   <!-- Footer -->
@@ -57,14 +36,14 @@
 
   <!-- API Script -->
   <script>
-    function loadAPI() {
-      fetch("https://bdkaziapi-9.vercel.app/api")
+    function checkAPI() {
+      fetch("https://bdkaziapi-9.vercel.app")
         .then(response => response.text())
         .then(data => {
-          document.getElementById("result").innerText = data;
+          document.getElementById("apiResult").innerText = data;
         })
         .catch(error => {
-          document.getElementById("result").innerText = "API Error ❌";
+          document.getElementById("apiResult").innerText = "❌ API Error";
         });
     }
   </script>
